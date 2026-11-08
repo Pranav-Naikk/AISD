@@ -1,0 +1,1 @@
+const api={get:p=>fetch('/api'+p).then(r=>r.ok?r.json():r.json().then(e=>Promise.reject(e))),send:(p,method,data)=>fetch('/api'+p,{method,headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).then(r=>r.ok?r.json():r.json().then(e=>Promise.reject(e)))};

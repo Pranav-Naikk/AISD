@@ -1,0 +1,4 @@
+const db=require('../config/db');
+exports.list=async(req,res)=>{const [rows]=await db.query(`SELECT i.*,a.student_id,j.role,c.name company_name FROM interview_slots i JOIN applications a ON a.id=i.application_id JOIN job_listings j ON j.id=a.job_id JOIN companies c ON c.id=j.company_id ORDER BY i.scheduled_at`);res.json(rows)};
+exports.create=async(req,res)=>{const {application_id,round_no,scheduled_at,venue,notes=null}=req.body;const [r]=await db.query('INSERT INTO interview_slots (application_id,round_no,scheduled_at,venue,notes) VALUES (?,?,?,?,?)',[application_id,round_no,scheduled_at,venue,notes]);res.status(201).json({id:r.insertId,message:'Interview scheduled.'})};
+exports.update=async(req,res)=>{const {scheduled_at,venue,passed,notes}=req.body;await db.query('UPDATE interview_slots SET scheduled_at=?,venue=?,passed=?,notes=? WHERE id=?',[scheduled_at,venue,passed,notes,req.params.id]);res.json({message:'Interview updated.'})};

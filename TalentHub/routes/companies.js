@@ -1,0 +1,1 @@
+const r=require('express').Router(),c=require('../controllers/companyController');const valid=(req,res,next)=>req.body.name?.trim()?next():res.status(422).json({message:'Company name is required.'});r.get('/',c.list);r.post('/',valid,c.create);r.put('/:id',valid,c.update);r.delete('/:id',c.remove);module.exports=r;
